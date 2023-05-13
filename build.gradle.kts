@@ -4,21 +4,31 @@ group = "tk.satsophone"
 version = "1.0-SNAPSHOT"
 
 plugins {
-    kotlin("jvm") version "1.8.20"
-    id("org.jetbrains.compose") version "1.4.0"
+    kotlin("multiplatform")
+    id("org.jetbrains.compose")
 }
 
 repositories {
+    google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    google()
     mavenLocal()
 }
 
-dependencies {
-    implementation(compose.desktop.currentOs)
-
-    implementation(libs.nostrino)
+kotlin {
+    jvm {
+        jvmToolchain(11)
+        withJava()
+    }
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.nostrino)
+            }
+        }
+        val jvmTest by getting
+    }
 }
 
 compose.desktop {
@@ -26,7 +36,7 @@ compose.desktop {
         mainClass = "MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "BigBird"
+            packageName = "demo1"
             packageVersion = "1.0.0"
         }
     }
