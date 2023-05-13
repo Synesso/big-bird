@@ -1,0 +1,7 @@
+[versions]
+nostrino = "0.0.4-SNAPSHOT"
+
+[libraries]
+nostrino = { module = "app.cash.nostrino:nostr-sdk", version.ref = "nostrino" }
+
+[plugins]
