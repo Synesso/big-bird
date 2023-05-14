@@ -1,3 +1,5 @@
+package bigbird
+
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
@@ -26,33 +28,39 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import bigbird.screen.HomeScreen
 
 
 @Composable
 @Preview
 fun App() {
-    val count = remember { mutableStateOf(0) }
-
     MaterialTheme {
-        Column(Modifier.fillMaxSize(), Arrangement.spacedBy(5.dp)) {
+        HomeScreen()
+    }
+}
 
-            Button(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onClick = { count.value++ }
-            ) {
-                Text(if (count.value == 0) "Hello World" else "Clicked ${count.value}!")
-            }
+@Composable
+@Preview
+fun demoScreen() {
+    val count = remember { mutableStateOf(0) }
+    Column(Modifier.fillMaxSize(), Arrangement.spacedBy(5.dp)) {
 
-            Button(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onClick = { count.value = 0 }
-            ) {
-                Text("Reset")
-            }
-
-            noteList()
-
+        Button(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            onClick = { count.value++ }
+        ) {
+            Text(if (count.value == 0) "Hello World" else "Clicked ${count.value}!")
         }
+
+        Button(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            onClick = { count.value = 0 }
+        ) {
+            Text("Reset")
+        }
+
+        noteList()
+
     }
 }
 
@@ -98,8 +106,8 @@ fun Note(text: String) {
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Compose for Desktop",
-        state = rememberWindowState(width = 300.dp, height = 300.dp),
+        title = "Big Bird",
+        state = rememberWindowState(),
     ) {
         App()
     }

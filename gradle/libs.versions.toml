@@ -1,7 +1,9 @@
 [versions]
+compose = "2.5.3"
 nostrino = "0.0.4-SNAPSHOT"
 
 [libraries]
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose"}
 nostrino = { module = "app.cash.nostrino:nostr-sdk", version.ref = "nostrino" }
 
 [plugins]

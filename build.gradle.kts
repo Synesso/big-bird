@@ -24,6 +24,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation(libs.compose.navigation)
                 implementation(libs.nostrino)
             }
         }
@@ -36,7 +37,7 @@ compose.desktop {
         mainClass = "MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "demo1"
+            packageName = "BigBird"
             packageVersion = "1.0.0"
         }
     }
