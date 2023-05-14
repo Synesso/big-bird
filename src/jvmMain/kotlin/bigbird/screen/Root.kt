@@ -19,7 +19,6 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 
 
-// https://arkivanov.github.io/Decompose/getting-started/quick-start/#using-value-from-decompose to grok this
 interface RootComponent {
     val stack: Value<ChildStack<*, Child>>
 

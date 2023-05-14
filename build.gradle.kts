@@ -27,6 +27,8 @@ kotlin {
                 implementation(libs.decompose.core)
                 implementation(libs.decompose.extensions)
                 implementation(libs.nostrino)
+                implementation(libs.okHttp)
+                implementation(libs.slf4jSimple)
             }
         }
         val jvmTest by getting
