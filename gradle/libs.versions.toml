@@ -1,9 +1,10 @@
 [versions]
-compose = "2.5.3"
+decompose = "1.0.0"
 nostrino = "0.0.4-SNAPSHOT"
 
 [libraries]
-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose"}
+decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-extensions = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
 nostrino = { module = "app.cash.nostrino:nostr-sdk", version.ref = "nostrino" }
 
 [plugins]

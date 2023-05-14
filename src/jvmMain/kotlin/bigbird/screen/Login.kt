@@ -18,6 +18,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
+
+
+// https://arkivanov.github.io/Decompose/getting-started/quick-start/#using-value-from-decompose to grok this
+interface LoginComponent {
+}
+
+class DefaultLoginComponent(
+    componentContext: ComponentContext,
+) : LoginComponent {
+
+}
+
+@Composable
+fun LoginContent(
+    component: LoginComponent,
+    modifier: Modifier = Modifier,
+) {
+//    val model by component.model.subscribeAsState()
+
+    LoginScreen()
+}
+
 
 @Composable
 @Preview

@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -28,17 +29,71 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import bigbird.screen.HomeScreen
+import bigbird.screen.DefaultLoginComponent
+import bigbird.screen.LoginContent
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleController
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import javax.swing.SwingUtilities
 
+fun main() {
+    val lifecycle = LifecycleRegistry()
 
-@Composable
-@Preview
-fun App() {
-    MaterialTheme {
-        HomeScreen()
+    val root = runOnUiThread {
+        DefaultLoginComponent(
+            componentContext = DefaultComponentContext(lifecycle = lifecycle),
+        )
+    }
+
+    application {
+        val windowState = rememberWindowState()
+        LifecycleController(lifecycle, windowState)
+
+        Window(
+            onCloseRequest = ::exitApplication,
+            state = windowState,
+            title = "Big Bird"
+        ) {
+            MaterialTheme {
+                Surface {
+                    LoginContent(component = root, modifier = Modifier.fillMaxSize())
+                }
+            }
+        }
     }
 }
 
+internal fun <T> runOnUiThread(block: () -> T): T {
+    if (SwingUtilities.isEventDispatchThread()) {
+        return block()
+    }
+
+    var error: Throwable? = null
+    var result: T? = null
+
+    SwingUtilities.invokeAndWait {
+        try {
+            result = block()
+        } catch (e: Throwable) {
+            error = e
+        }
+    }
+
+    error?.also { throw it }
+
+    @Suppress("UNCHECKED_CAST")
+    return result as T
+}
+
+//@Composable
+//@Preview
+//fun App() {
+//    MaterialTheme {
+//        LoginContent(DefaultLoginComponent(defaultComponentContext()))
+//    }
+//}
+
+/*
 @Composable
 @Preview
 fun demoScreen() {
@@ -103,12 +158,4 @@ fun Note(text: String) {
     }
 }
 
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "Big Bird",
-        state = rememberWindowState(),
-    ) {
-        App()
-    }
-}
+*/

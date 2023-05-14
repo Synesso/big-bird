@@ -24,7 +24,8 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation(libs.compose.navigation)
+                implementation(libs.decompose.core)
+                implementation(libs.decompose.extensions)
                 implementation(libs.nostrino)
             }
         }
