@@ -1,6 +1,5 @@
 package bigbird.screen
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,15 +12,37 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import bigbird.screen.HomeComponent.Model
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
+
+interface HomeComponent {
+    val model: Value<Model>
+
+    data class Model(val count: Int)
+}
+
+class DefaultHomeComponent(
+    componentContext: ComponentContext,
+) : HomeComponent {
+    override val model: Value<Model> = MutableValue(Model(42))
+}
 
 @Composable
-@Preview
-fun HomeScreen() {
+fun HomeContent(
+    component: HomeComponent,
+    modifier: Modifier = Modifier,
+) {
+    val model by component.model.subscribeAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +77,7 @@ fun HomeScreen() {
                 }
             ) {
                 Text(
-                    text = "Go to Details",
+                    text = model.count.toString(),
                     modifier = Modifier.padding(5.dp),
                     style = MaterialTheme.typography.button.copy(
                         fontWeight = FontWeight.Bold,
