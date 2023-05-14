@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import app.cash.nostrino.crypto.SecKey
 import bigbird.screen.HomeComponent.Model
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
@@ -27,13 +28,14 @@ import com.arkivanov.decompose.value.Value
 interface HomeComponent {
     val model: Value<Model>
 
-    data class Model(val count: Int)
+    data class Model(val secKey: SecKey)
 }
 
 class DefaultHomeComponent(
     componentContext: ComponentContext,
+    secKey: SecKey,
 ) : HomeComponent {
-    override val model: Value<Model> = MutableValue(Model(42))
+    override val model: Value<Model> = MutableValue(Model(secKey))
 }
 
 @Composable
@@ -57,7 +59,7 @@ fun HomeContent(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Home Screen",
+                text = "Welcome, ${model.secKey.pubKey.npub}",
                 fontSize = MaterialTheme.typography.h3.fontSize,
                 fontWeight = FontWeight.Bold
             )
@@ -77,7 +79,7 @@ fun HomeContent(
                 }
             ) {
                 Text(
-                    text = model.count.toString(),
+                    text = "...",
                     modifier = Modifier.padding(5.dp),
                     style = MaterialTheme.typography.button.copy(
                         fontWeight = FontWeight.Bold,

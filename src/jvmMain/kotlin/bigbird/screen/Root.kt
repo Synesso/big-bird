@@ -2,6 +2,7 @@ package bigbird.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import app.cash.nostrino.crypto.SecKey
 import bigbird.screen.RootComponent.Child.HomeChild
 import bigbird.screen.RootComponent.Child.LoginChild
 import com.arkivanov.decompose.ComponentContext
@@ -46,21 +47,24 @@ class DefaultRootComponent(
     private fun child(config: Config, componentContext: ComponentContext): RootComponent.Child =
         when (config) {
             is Config.Login -> LoginChild(loginComponent(componentContext))
-            is Config.Home -> HomeChild(homeComponent(componentContext))
+            is Config.Home -> HomeChild(homeComponent(componentContext, config))
         }
 
     private fun loginComponent(componentContext: ComponentContext): LoginComponent = DefaultLoginComponent(
         componentContext,
-        onLogin = { navigation.push(Config.Home) },
+        onLogin = { secKey ->
+            navigation.push(Config.Home(secKey))
+        },
     )
 
-    private fun homeComponent(componentContext: ComponentContext): HomeComponent = DefaultHomeComponent(
+    private fun homeComponent(componentContext: ComponentContext, config: Config.Home): HomeComponent = DefaultHomeComponent(
         componentContext,
+        config.secKey,
     )
 
     private sealed interface Config : Parcelable {
         object Login : Config
-        object Home : Config
+        data class Home(val secKey: SecKey) : Config
     }
 }
 

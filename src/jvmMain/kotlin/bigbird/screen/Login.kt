@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import app.cash.nostrino.crypto.SecKey
+import app.cash.nostrino.crypto.SecKeyGenerator
 import bigbird.screen.LoginComponent.Model
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
@@ -37,11 +39,13 @@ interface LoginComponent {
 
 class DefaultLoginComponent(
     componentContext: ComponentContext,
-    private val onLogin: () -> Unit,
+    private val onLogin: (SecKey) -> Unit,
 ) : LoginComponent {
 
-    override val model: Value<Model> = MutableValue(Model("Hello World"))
-    override fun onButtonClicked() { onLogin() }
+    override val model: Value<Model> = MutableValue(Model("Create new key"))
+    override fun onButtonClicked() {
+        onLogin(SecKeyGenerator().generate())
+    }
 }
 
 @Composable
@@ -65,7 +69,7 @@ fun LoginContent(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Login Screen",
+                text = "Hey, Big Bird",
                 fontSize = MaterialTheme.typography.h3.fontSize,
                 fontWeight = FontWeight.Bold
             )
